@@ -7,7 +7,6 @@ const gameContainer = document.querySelector("#game"),
 //Сначала запихивал все в let, но область видимости дала мне по лицу. Однажды я разберусь в вопросе, но не сегодня
 var orderNumberField = document.querySelector('#orderNumberField'),
     answerField = document.querySelector('#answerField'),
-    btnGroup = document.querySelector('.btn-group'),
     minValue = 0,
     maxValue = 0,
     answerNumber = 0,
@@ -261,7 +260,6 @@ document.getElementById('btnStart').addEventListener('click', function () {
 
     gameContainer.classList.toggle("hide");
     cfgContainer.classList.toggle("hide");
-    btnGroup.classList.toggle("hide");
 
     gameRun = true;
 
@@ -283,7 +281,6 @@ document.getElementById('btnOver').addEventListener('click', function () {
     if (minValue === maxValue){
         answerField.innerText = rand_phrase('fail');
         gameRun = false;
-        btnGroup.classList.toggle("hide");
     } else {
         minValue = answerNumber  + 1;
         answerNumber  = Math.floor((minValue + maxValue) / 2);
@@ -300,7 +297,6 @@ document.getElementById('btnLess').addEventListener('click', function () {
     if (minValue === maxValue){
         answerField.innerText = rand_phrase('fail');
         gameRun = false;
-        btnGroup.classList.toggle("hide");
     } else {
         maxValue = answerNumber - 1;
         answerNumber  = Math.floor((minValue + maxValue) / 2);
@@ -323,6 +319,5 @@ document.getElementById('btnEqual').addEventListener('click', function () {
 
     answerField.innerText = rand_phrase('success');
     gameRun = false;
-    btnGroup.classList.toggle("hide");
 
 })
