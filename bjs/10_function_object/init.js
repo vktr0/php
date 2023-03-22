@@ -13,7 +13,7 @@ function generate(){
 
     document.querySelector('#professionOutput').innerText = initPerson.profession;
 
-    document.querySelector('#patronymicOutput').innerText = patronymic.getPatronymic(JSON.stringify(initPerson));
+    document.querySelector('#patronymicOutput').innerText = patronymic.getPatronymic(initPerson);
 
 }
 

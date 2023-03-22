@@ -188,6 +188,8 @@ const personGenerator = {
 
         this.person.profession = this.randomProfession();
 
+        this.person.fatherName = this.randomValue(this.firstNameMaleJson);
+
         return this.person;
     }
 
@@ -195,32 +197,37 @@ const personGenerator = {
 
 const patronymicGenerator = {
 
-    patronymicJson: `{  
-        "count": 6,
-        "list": {
-            "id_1": "Андреев",
-            "id_2": "Федоров",
-            "id_3": "Николаев",
-            "id_4": "Васильев",
-            "id_5": "Петров",
-            "id_6": "Михайлов"
+    getPatronymic: function (person) {
+
+        //Достаем окончание и корень
+        fatherEnd = person.fatherName.slice(person.fatherName.length-2, person.fatherName.length);
+        fatherRoot = person.fatherName.slice(0, person.fatherName.length-2);
+
+        //Меняем корень
+        switch (fatherEnd){
+            case "др": patronymic = fatherRoot+"дров"; break;   //Александр     Алексан   +др->ов     +ич/на
+            case "им": patronymic = fatherRoot+"имов"; break;   //Максим        Макс      +им->имов   +ич/на
+            case "ан": patronymic = fatherRoot+"анов"; break;   //Иван          Ив        +ан->анов   +ич/на
+            case "ем": patronymic = fatherRoot+"емов"; break;   //Артем         Арт       +ем->емов   +ич/на
+            case "ий": patronymic = fatherRoot+"иев"; break;    //Дмитрий       Дмитр     +ий->ьев    +ич/на 
+            case "та": patronymic = fatherRoot+"тич"; break;    //Никита        Ники      +та->тич    +''/на
+            case "ил": patronymic = fatherRoot+"лов"; break;    //Михаил        Миха      +ил->йлов   +ич/на
+            case "ил": patronymic = fatherRoot+"ов"; break;     //Даниил        Дани      +ил->ов     +ич/на
+            case "ор": patronymic = fatherRoot+"оров"; break;   //Егор          Ег        +ор->ов     +ич/на
+            case "ей": patronymic = fatherRoot+"еев"; break;    //Андрей        Андр      +ей->еев    +ич/на
         }
-    }`,
 
-    randomIntNumber: (max = 1, min = 0) => Math.floor(Math.random() * (max - min + 1) + min),
+        //Добавляем окончание в зависимости от пола
+        //Хз насколько адекватно так решать вопрос с именем Никита (Никитичич)
+        if (person.gender=="Мужчина" && patronymic.slice(patronymic.length-2, patronymic.length)!="ич") {
 
-    randomValue: function (json) {
-        const obj = JSON.parse(json);
-        const prop = `id_${this.randomIntNumber(obj.count, 1)}`;  // this = personGenerator
-        return obj.list[prop];
-    },
+            return patronymic.slice(patronymic.length-2, patronymic.length)!="ич"  ? patronymic+"ич" : patronymic;
 
-    getPatronymic: function (personJson) {
+        }else{
 
-        const person = JSON.parse(personJson);
-        let patronymic = this.randomValue(this.patronymicJson);
+            return patronymic+"на";
 
-        return person.gender=='Мужчина' ? patronymic+"ич" : patronymic+"на";
+        }
 
     }
 
