@@ -218,14 +218,14 @@ const patronymicGenerator = {
         }
 
         //Добавляем окончание в зависимости от пола
-        //Хз насколько адекватно так решать вопрос с именем Никита (Никитичич)
-        if (person.gender=="Мужчина" && patronymic.slice(patronymic.length-2, patronymic.length)!="ич") {
+        if (person.gender=="Женщина") {
 
-            return patronymic.slice(patronymic.length-2, patronymic.length)!="ич"  ? patronymic+"ич" : patronymic;
+            return patronymic+"на";
 
         }else{
 
-            return patronymic+"на";
+            //Хз насколько адекватно так решать вопрос с именем Никита (Никитичич)
+            return patronymic.slice(patronymic.length-2, patronymic.length)!="ич"  ? patronymic+"ич" : patronymic;
 
         }
 
